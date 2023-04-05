@@ -292,7 +292,7 @@ export default function OrgChartTree() {
         <>
             <form onSubmit={onSubmit}>
                 <div className='px-2 md:px-4 my-5'>
-                    <input type="text" className="form-control mb-4" name="openai-api-key"
+                    <input type="password" className="form-control mb-4" name="openai-api-key"
                            placeholder="ここにOpenAIのAPIキーを入れてください"
                            value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)}/>
                 </div>
