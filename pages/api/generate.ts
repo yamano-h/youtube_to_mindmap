@@ -6,7 +6,7 @@ export const config = {
 
 export default async function (req, res) {
 
-  // console.log(req.body.conversations)
+  // console.log(req.body.text)
   if (!process.env.OPENAI_API_KEY) {
     res.status(500).json({
       error: {

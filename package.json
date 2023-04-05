@@ -16,14 +16,13 @@
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^0.0.0-insiders.f4e9710",
-    "next": "13.2.4",
+    "next": "latest",
     "openai": "^3.2.1",
     "react": "18.2.0",
     "react-d3-tree": "^3.5.1",
     "react-dom": "18.2.0",
     "sass": "^1.60.0",
-    "youtube-captions-scraper": "^2.0.0",
-    "youtube-transcript": "^1.0.5"
+    "youtube-captions-scraper": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "18.15.6",

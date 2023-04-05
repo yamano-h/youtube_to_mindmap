@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Tree from 'react-d3-tree';
 import {Post, PostNode} from '../lib/post';
-import {YoutubeTranscript} from 'youtube-transcript';
 import {getSubtitles} from 'youtube-captions-scraper';
 
 
