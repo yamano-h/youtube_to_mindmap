@@ -1,9 +1,5 @@
 import { Configuration, OpenAIApi } from "openai";
 
-export const config = {
-  'runtime': 'edge'
-};
-
 export default async function (req, res) {
 
   // console.log(req.body.text)
