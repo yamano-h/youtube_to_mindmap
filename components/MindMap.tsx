@@ -235,6 +235,12 @@ export default function OrgChartTree() {
         return videoId;
     }
 
+    function removeTextInBrackets(text) {
+        const regex = /\[[^\]]*\]/g;
+        return text.replace(regex, '');
+    }
+
+
     async function onSubmit(e) {
         e.preventDefault();
         // if (!question || !identity1) return;
@@ -249,18 +255,20 @@ export default function OrgChartTree() {
             let res: any = {};
             let newData: any = {};
             while (i < ttf.length) {
-                const text = ttf.slice(i, i + 100).map(item => item.text).join('\n');
+                let text = ttf.slice(i, i + 50).map(item => item.text).join('\n');
+                text = removeTextInBrackets(text);
                 if (!Object.keys(newData).length) {
-                    const template = `上記の型式で、「${text}」の内容を整理して出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
+                    const template = `上記の型式で、「${text}」内の重要なキーワードをとりこぼさずに完結に整理して出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
                     res = await PostNode("/api/generate", {text: template, apiKey: openAIKey});
                 } else {
                     const template = `前回までの出力結果はこちらです。
                             「${JSON.stringify(newData)}」 
                             指定の形式で、
                             「${text}}」
-                            の内容を整理して、前回までの出力結果を修正する形で出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
+                            内の重要なキーワードをとりこぼさずに完結に整理して、前回までの出力結果を修正する形で出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
                     res = await PostNode("/api/generate", {text: template, apiKey: openAIKey});
                 }
+                console.log(res.content)
                 newData = parseJSON(res.content);
                 i += 100;
             }
