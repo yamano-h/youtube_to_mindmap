@@ -191,6 +191,7 @@ export default function OrgChartTree() {
     const [isReady, setIsReady] = useState<boolean>(false);
     const [result, setResult] = useState<string>('');
     const [youtubeUrl, setQuestion] = useState<string>("");
+    const [openAIKey, setOpenAIKey] = useState<string>("");
 
     function parseJSON(obj) {
         try {
@@ -251,14 +252,14 @@ export default function OrgChartTree() {
                 const text = ttf.slice(i, i + 100).map(item => item.text).join('\n');
                 if (!Object.keys(newData).length) {
                     const template = `上記の型式で、「${text}」の内容を整理して出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
-                    res = await PostNode("/api/generate", {text: template});
+                    res = await PostNode("/api/generate", {text: template, apiKey: openAIKey});
                 } else {
                     const template = `前回までの出力結果はこちらです。
                             「${JSON.stringify(newData)}」 
                             指定の形式で、
                             「${text}}」
                             の内容を整理して、前回までの出力結果を修正する形で出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
-                    res = await PostNode("/api/generate", {text: template});
+                    res = await PostNode("/api/generate", {text: template, apiKey: openAIKey});
                 }
                 newData = parseJSON(res.content);
                 i += 100;
@@ -282,6 +283,11 @@ export default function OrgChartTree() {
         <>
             <form onSubmit={onSubmit}>
                 <div className='px-2 md:px-4 my-5'>
+                    <input type="text" className="form-control mb-4" name="openai-api-key"
+                           placeholder="ここにOpenAIのAPIキーを入れてください"
+                           value={openAIKey} onChange={(e) => setOpenAIKey(e.target.value)}/>
+                </div>
+                <div className='px-2 md:px-4 my-5'>
                     <input type="text" className="form-control mb-4" name="question"
                            placeholder="ここにYouTubeのURLを入れてください"
                            value={youtubeUrl} onChange={(e) => setQuestion(e.target.value)}/>
@@ -291,7 +297,7 @@ export default function OrgChartTree() {
                         <div className="flex justify-center mt-">
                             <button type="submit"
                                     className="w-24 bg-main bg-main-hover text-white text-lg font-bold py-1 rounded transition"
-                                    disabled={extractVideoId(youtubeUrl) === ""}>Generate
+                                    disabled={extractVideoId(youtubeUrl) === "" || openAIKey === ""}>Generate
                             </button>
                         </div>
                         :

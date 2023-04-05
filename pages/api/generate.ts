@@ -11,8 +11,9 @@ export default async function (req, res) {
     });
     return;
   }
+
   const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: req.body.apiKey,
   });
   const openai = new OpenAIApi(configuration);
 
