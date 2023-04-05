@@ -248,7 +248,8 @@ export default function OrgChartTree() {
         try {
             const youtubeId = extractVideoId(youtubeUrl)
             const ttf = await PostNode("/api/youtube-caption", {text: youtubeId});
-            if (ttf.length >= 500) {
+            if (ttf.length >= 700) {
+                console.log(ttf.length)
                 throw new Error('申し訳ありませんが、動画内の字幕の文章が長過ぎます。')
             }
             let i = 0;
