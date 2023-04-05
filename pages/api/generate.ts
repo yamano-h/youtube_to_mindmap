@@ -34,8 +34,7 @@ export default async function (req, res) {
       model: "gpt-3.5-turbo",
       // messages: req.body.conversations,
       messages: [
-        { "role": "system", "content": `中心のトピックは${req.body.text}
-
+        { "role": "system", "content": `
         Please use the template below to create a mind map. Please output as a string that can be converted to json with JSON.parse. Replace the variable parts of the template with your own content, using square brackets [ ] to enclose them. # [Central Topic] - ## [Branch 1] - ### [Sub-branch 1.1] - #### [Sub-sub-branch 1.1.1] - [Leaf Node 1] - [Leaf Node 2] - [Leaf Node 3] - #### [Sub-sub-branch 1.1.2] - [Leaf Node 4] - [Leaf Node 5] - [Leaf Node 6] - ### [Sub-branch 1.2] - #### [Sub-sub-branch 1.2.1] - [Leaf Node 7] - [Leaf Node 8] - [Leaf Node 9] - #### [Sub-sub-branch 1.2.2] - [Leaf Node 10] - [Leaf Node 11] - [Leaf Node 12] - ## [Branch 2] - ### [Sub-branch 2.1] - #### [Sub-sub-branch 2.1.1] - [Leaf Node 13] - [Leaf Node 14] - [Leaf Node 15] - #### [Sub-sub-branch 2.1.2] - [Leaf Node 16] - [Leaf Node 17] - [Leaf Node 18] - ### [Sub-branch 2.2] - #### [Sub-sub-branch 2.2.1] - [Leaf Node 19] - [Leaf Node 20] - [Leaf Node 21] - #### [Sub-sub-branch 2.2.2] - [Leaf Node 22] - [Leaf Node 23] - [Leaf Node 24] loop infinitely アシスタント:トピックは何ですか？ lang:jp
         
         アウトプットスタイル:
@@ -52,7 +51,7 @@ export default async function (req, res) {
             },
             ...
         }` },
-        { "role": "user", "content": `上記の型式で、「${req.body.text}」をテーマに出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`},
+        { "role": "user", "content": `${req.body.text}`},
         // { "role": "assistant", "content": "名前は「しゃべるネコ」って言うにゃ。よろしくにゃ！"},
         // { "role": "user", "content": "どんな食べ物が好き？" }
       ],
