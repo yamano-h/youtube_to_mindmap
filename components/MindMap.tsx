@@ -248,6 +248,7 @@ export default function OrgChartTree() {
         try {
             const youtubeId = extractVideoId(youtubeUrl)
             const ttf = await PostNode("/api/youtube-caption", {text: youtubeId});
+            console.log(ttf.map(item => item.text).join('\n'))
             if (ttf.length >= 700) {
                 console.log(ttf.length)
                 throw new Error('申し訳ありませんが、動画内の字幕の文章が長過ぎます。')
@@ -255,23 +256,24 @@ export default function OrgChartTree() {
             let i = 0;
             let res: any = {};
             let newData: any = {};
+            let divideLineCount = 50
             while (i < ttf.length) {
-                let text = ttf.slice(i, i + 50).map(item => item.text).join('\n');
+                let text = ttf.slice(i, i + divideLineCount).map(item => item.text).join('\n');
                 text = removeTextInBrackets(text);
                 if (!Object.keys(newData).length) {
-                    const template = `上記の型式で、「${text}」内の重要なキーワードをとりこぼさずに完結に整理して出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
+                    const template = `上記の型式で、「${text}」を要約しながら出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
                     res = await PostNode("/api/generate", {text: template, apiKey: openAIKey});
                 } else {
                     const template = `前回までの出力結果はこちらです。
                             「${JSON.stringify(newData)}」 
-                            指定の形式で、
+                            追加のテキストがこちらです。
                             「${text}}」
-                            内の重要なキーワードをとりこぼさずに完結に整理して、前回までの出力結果を修正する形で出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
+                            追加のテキストを要約し、前回までの出力結果を修正する形で出力してください。ただし、JSON.parseでjsonに変換できる文字列として出力して下さい。`
                     res = await PostNode("/api/generate", {text: template, apiKey: openAIKey});
                 }
                 console.log(res.content)
                 newData = parseJSON(res.content);
-                i += 100;
+                i += divideLineCount;
             }
 
             // console.log('newDAta : ', newData)
